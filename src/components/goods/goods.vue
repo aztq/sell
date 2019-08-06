@@ -14,7 +14,7 @@
                         <li v-for='(item,index) in goods' :key=index class="food-list food-list-hook">
                               <h1 class='title'>{{item.name}}</h1>
                               <ul>
-                                    <li v-for='(food,index) in item.foods' :key=index class="food-item border-1px">
+                                    <li @click='selectFood(food)' v-for='(food,index) in item.foods' :key=index class="food-item border-1px">
                                           <div class="icon">
                                                 <img width='57' height='57' :src="food.icon" alt="" srcset="">
                                           </div>
@@ -39,23 +39,27 @@
                   </ul>
             </div>
             <shopcart :select-foods='select' :deliveryPrice='seller.deliveryPrice' :minPrice='seller.minPrice'></shopcart>
+            <food :food='selectedFood' ref='foodSon'></food>
       </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart'
+import food from '../food/food'
 import cartcontrol from '../cartcontrol/cartcontrol'
 export default {
       components:{
             shopcart,
-            cartcontrol
+            cartcontrol,
+            food
       },
       data(){
             return{
                   goods:[],
                   listHeight:[],
-                  scrollY:0
+                  scrollY:0,
+                  selectedFood:{}
             }
       },
       computed:{
@@ -123,6 +127,11 @@ export default {
                   let foodList=this.$refs.foods.getElementsByClassName('food-list-hook')
                   let el=foodList[index]
                   this.foodsScroll.scrollToElement(el,300)
+            },
+            selectFood(food){
+                  this.selectedFood=food
+                  console.log(this.selectedFood)
+                  this.$refs.foodSon.show()
             }
       }
 }

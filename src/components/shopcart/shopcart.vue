@@ -24,7 +24,7 @@
                  <h1 class="title">购物车</h1>
                  <span class="empty" @click='remove'>清空</span>
            </div>
-           <div class="list-content">
+           <div class="list-content" ref='content'>
                   <ul>
                         <li class="food" v-for='(food,index) in selectFoods' :key=index>
                               <span class="name">{{food.name}}</span> 
@@ -45,6 +45,7 @@
 
 <script>
 import cartcontrol from '../cartcontrol/cartcontrol'
+import BScroll from 'better-scroll'
 export default {
       data(){
             return{
@@ -110,7 +111,18 @@ export default {
                         return false
                   }
                   let show=!this.fold
-                  return show
+                  if(show){
+                        this.$nextTick( () =>{
+                              if(!this.scroll){
+                                    this.scroll = new BScroll(this.$refs.content,{
+                                          click:true
+                                    })
+                              } else {
+                                    this.scroll.refresh()
+                              }    
+                        })
+                  }
+                  return show;
             }
       },
       methods:{

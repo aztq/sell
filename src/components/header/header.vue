@@ -29,7 +29,8 @@
             <div class="background">
                   <img :src="seller.avatar" width='100%' height='100%'>
             </div>
-            <div v-show='detailShow' class="detail" transition='fade'>
+            <transition name='fade'>
+            <div v-show='detailShow' class="detail">
                   <div class="detail-wrapper clearfix">
                         <div class="detail-main">
                               <h1 class='name'>{{seller.name}}</h1>
@@ -61,6 +62,7 @@
                         <i class='icon-close'></i>
                   </div>
             </div>
+            </transition>
       </div>
 </template>
 <script>
@@ -211,14 +213,11 @@ export default {
             width:100%
             height:100%
             overflow:auto
-            transition :all 0.5s
             backdrop-filter :blur(10px)
-            &.fade-transition
-                  opacity:1
-                  background:rgba(7,17,27,.8)
-            &.fade-enter, &.fade-leave
-                  opacity:0
-                  background:rgba(7,17,27,0)
+            &.fade-enter-active, &.fade-leave-active 
+                  transition: opacity .5s
+            &.fade-enter, &.fade-leave-to 
+                  opacity: 0
             .detail-wrapper
                   min-height:100%
                   width:100%
